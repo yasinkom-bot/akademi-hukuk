@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  role     String @default("LAWYER")
+  name     String
+  email    String @unique
+  password String
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  tckn_vkn  String   @unique
+  name      String
+  contact   String?
+  address   String?
+  cases     Case[]
+  createdAt DateTime @default(now())
+}
+
+model Case {
+  foyNo        Int        @id @default(autoincrement())
+  esasNo       String?
+  type         String
+  lawyerId     String
+  counterparty String?
+  generalInfo  String?
+  notes        String?
+  clientId     String?
+  client       Client?    @relation(fields: [clientId], references: [id])
+  expenses     Expense[]
+  hearings     Hearing[]
+  notices      Notice[]
+  tasks        Task[]
+  documents    Document[]
+  isArchived   Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  date        DateTime
+  description String
+  amount      Float
+  caseId      Int
+  case        Case     @relation(fields: [caseId], references: [foyNo])
+}
+
+model Hearing {
+  id        String   @id @default(uuid())
+  date      DateTime
+  time      String
+  court     String
+  decision  String?
+  nextDate  DateTime?
+  caseId    Int
+  case      Case     @relation(fields: [caseId], references: [foyNo])
+}
+
+model Notice {
+  id         String   @id @default(uuid())
+  noticeDate DateTime
+  legalDays  Int
+  caseId     Int
+  case       Case     @relation(fields: [caseId], references: [foyNo])
+}
+
+model Task {
+  id       String     @id @default(uuid())
+  title    String
+  status   String     @default("TODO")
+  caseId   Int
+  case     Case       @relation(fields: [caseId], references: [foyNo])
+}
+
+model Document {
+  id         String   @id @default(uuid())
+  name       String
+  filePath   String
+  caseId     Int
+  case       Case     @relation(fields: [caseId], references: [foyNo])
+  uploadedAt DateTime @default(now())
+}
