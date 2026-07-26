@@ -1,0 +1,105 @@
+:root {
+  /* Default to Dark Theme (Koyu Tema) */
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  
+  --sidebar-bg: #1e293b;
+  --sidebar-border: #334155;
+  
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(51, 65, 85, 0.5);
+  
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --radius: 12px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  --danger: #ef4444;
+  --success: #10b981;
+  --warning: #f59e0b;
+}
+
+[data-theme="light"] {
+  /* Açık Tema (Light Theme) Override - Daha Gri */
+  --background: #e2e8f0; /* Belirgin gri arka plan */
+  --foreground: #0f172a;
+  
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  
+  --sidebar-bg: #f1f5f9; /* Kırık gri */
+  --sidebar-border: #cbd5e1;
+  
+  --card-bg: #f1f5f9; /* Kırık gri */
+  --card-border: rgba(148, 163, 184, 0.5); /* Sınırları biraz daha belirgin yapalım */
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  aside, header, nav, .print-hide, button {
+    display: none !important;
+  }
+  .glass {
+    box-shadow: none !important;
+    border: none !important;
+    backdrop-filter: none !important;
+    background: white !important;
+  }
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+  th, td {
+    border: 1px solid #ccc !important;
+    padding: 8px !important;
+    color: black !important;
+  }
+  /* Remove actions column completely during print */
+  th:last-child, td:last-child {
+    display: none !important;
+  }
+  @page {
+    margin: 1.5cm;
+    size: landscape;
+  }
+}
